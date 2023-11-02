@@ -15,7 +15,7 @@ public class DietController {
 
     //chat-gpt 와 간단한 채팅 서비스 소스
     @PostMapping("/api/v1/chat-gpt")
-    public String test(
+    public ReadDietDto test(
             @RequestParam(name = "gender", defaultValue = "") String gender,
             @RequestParam(name = "age", defaultValue = "0") Integer age,
             @RequestParam(name = "height", defaultValue = "0") Float height,
@@ -24,6 +24,5 @@ public class DietController {
             @RequestParam(name = "purpose", defaultValue = "0") String purpose
     ) {
         return dietService.getChatResponse(gender, age, height, weight, activity, purpose);
-        //\n\nAs an AI language model, I don't have feelings, but I'm functioning well. Thank you for asking. How can I assist you today?
     }
 }
