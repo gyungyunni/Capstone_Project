@@ -21,8 +21,9 @@ public class DietController {
             @RequestParam(name = "height", defaultValue = "0") Float height,
             @RequestParam(name = "weight", defaultValue = "0") Float weight,
             @RequestParam(name = "activity", defaultValue = "0") String activity,
-            @RequestParam(name = "purpose", defaultValue = "0") String purpose
+            @RequestParam(name = "purpose", defaultValue = "0") String purpose,
+            @RequestParam(name = "vegetarian", defaultValue = "아니요") String vegetarian
     ) {
-        return dietService.getChatResponse(gender, age, height, weight, activity, purpose);
+        return dietService.getChatResponse(gender, age, height, weight, activity, purpose, vegetarian);
     }
 }

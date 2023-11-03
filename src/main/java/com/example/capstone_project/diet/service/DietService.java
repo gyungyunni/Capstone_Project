@@ -19,14 +19,14 @@ public class DietService {
 //     활동성에 따라 BMR에 MultiNum을 곱해주어 유지 칼로리를 구해줌
 //     그리고 사용자가 원하는 상태에 따라 목표 칼로리를 구해준다.
 //     그 목표 칼로리를 바탕으로 챗-지피티 API에게 하루 세끼 식단을 짜달라고 한다.
-    public ReadDietDto getChatResponse(String gender, Integer age, Float height, Float weight, String activity, String purpose) {
+    public ReadDietDto getChatResponse(String gender, Integer age, Float height, Float weight, String activity, String purpose, String vegetarian) {
 
-        float bmr ; // 기초대사량
+        float bmr; // 기초대사량
         float mCal; // 유지 칼로리
         float pCal; // 목표 섭취 칼로리
 
         // 우항은 double형으로 계산되기 때문에 float로 타입 캐스팅
-        bmr = (float) ((gender.equals("남자")) ?  66 + (13.7 * weight) + (5 * height) - (6.8 * age) : 655 + (9.6 * weight) + (1.7 * height) - (4.7 * age));
+        bmr = (float) ((gender.equals("남자")) ? 66 + (13.7 * weight) + (5 * height) - (6.8 * age) : 655 + (9.6 * weight) + (1.7 * height) - (4.7 * age));
 
         // activity(활동량)은 거의 없다, 조금 있다, 보통, 꽤 있다, 아주 많다로 나뉨
         mCal = switch (activity) {
@@ -46,38 +46,71 @@ public class DietService {
             default -> throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "사용자가 선택한 목적과 일치하는 것이 없음");
         };
 
+        if (vegetarian.equals("네")) {
+            // 목표 섭취 칼로리를 기준으로 하루 세끼 식단을 짜달라고 할 것임.
+            // 탄단지 비율은 가장 이상적인 5 : 3 : 2
+            // 아침
+            String question1 = "아침에 섭취해야할 칼로리가 " + (pCal * 0.2) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 아침 식단을 완전 채식주의자 식단으로 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게 " +
+                    "먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
 
-        // 목표 섭취 칼로리를 기준으로 하루 세끼 식단을 짜달라고 할 것임.
-        // 탄단지 비율은 가장 이상적인 5 : 3 : 2
-        // 아침
-        String question1 = "아침에 섭취해야할 칼로리가 " + (pCal * 0.2) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 아침 식단을 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게 " +
-                           "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+            ReadDietDto readDietDto = new ReadDietDto();
+            String morningResponse = chatgptService.sendMessage(question1);
+            morningResponse = morningResponse.replaceAll("\n?", "");
 
-        ReadDietDto readDietDto = new ReadDietDto();
-        String morningResponse = chatgptService.sendMessage(question1);
-        morningResponse = morningResponse.replaceAll("\n?", "");
+            readDietDto.setMorning(morningResponse);
 
-        readDietDto.setMorning(morningResponse);
+            // 점심
+            String question2 = "점심에 섭취해야할 칼로리가 " + (pCal * 0.4) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 점심 식단을 완전 채식주의자 식단으로 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게  " +
+                    "먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
 
-        // 점심
-        String question2 = "점심에 섭취해야할 칼로리가 " + (pCal * 0.4) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 점심 식단을 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게  " +
-                "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+            String lunchResponse = chatgptService.sendMessage(question2);
+            lunchResponse = lunchResponse.replaceAll("\n?", "");
 
-        String lunchResponse = chatgptService.sendMessage(question2);
-        lunchResponse = lunchResponse.replaceAll("\n?", "");
+            readDietDto.setLunch(lunchResponse);
 
-        readDietDto.setLunch(lunchResponse);
+            // 저녁
+            String question3 = "저녁에 섭취해야할 칼로리가 " + (pCal * 0.4) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 저녁 식단을 완전 채식주의자 식단으로 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게 " +
+                    "먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
 
-        // 저녁
-        String question3 = "저녁에 섭취해야할 칼로리가 " + (pCal * 0.4) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 저녁 식단을 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게 " +
-                "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+            String dinnerResponse = chatgptService.sendMessage(question3);
+            dinnerResponse = dinnerResponse.replaceAll("\n?", "");
 
-        String dinnerResponse = chatgptService.sendMessage(question3);
-        dinnerResponse = dinnerResponse.replaceAll("\n?", "");
+            readDietDto.setDinner(dinnerResponse);
 
-        readDietDto.setDinner(dinnerResponse);
+            return readDietDto;
+        } else {
+            // 목표 섭취 칼로리를 기준으로 하루 세끼 식단을 짜달라고 할 것임.
+            // 탄단지 비율은 가장 이상적인 5 : 3 : 2
+            // 아침
+            String question1 = "아침에 섭취해야할 칼로리가 " + (pCal * 0.2) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 아침 식단을 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게 " +
+                    "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
 
-        return readDietDto;
+            ReadDietDto readDietDto = new ReadDietDto();
+            String morningResponse = chatgptService.sendMessage(question1);
+            morningResponse = morningResponse.replaceAll("\n?", "");
+
+            readDietDto.setMorning(morningResponse);
+
+            // 점심
+            String question2 = "점심에 섭취해야할 칼로리가 " + (pCal * 0.4) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 점심 식단을 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게  " +
+                    "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+
+            String lunchResponse = chatgptService.sendMessage(question2);
+            lunchResponse = lunchResponse.replaceAll("\n?", "");
+
+            readDietDto.setLunch(lunchResponse);
+
+            // 저녁
+            String question3 = "저녁에 섭취해야할 칼로리가 " + (pCal * 0.4) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 저녁 식단을 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게 " +
+                    "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+
+            String dinnerResponse = chatgptService.sendMessage(question3);
+            dinnerResponse = dinnerResponse.replaceAll("\n?", "");
+
+            readDietDto.setDinner(dinnerResponse);
+
+            return readDietDto;
+        }
     }
 
 }
