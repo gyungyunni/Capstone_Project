@@ -51,7 +51,7 @@ public class DietService {
             // 탄단지 비율은 가장 이상적인 5 : 3 : 2
             // 아침
             String question1 = "아침에 섭취해야할 칼로리가 " + (pCal * 0.2) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 아침 식단을 완전 채식주의자 식단으로 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게 " +
-                    "먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+                    "먼저 음식과 g만 나열하고(kcal는 적지말아줘), 마지막 부분에 음식의 총 kcal도 소수점 떼고 적어줘.";
 
             ReadDietDto readDietDto = new ReadDietDto();
             String morningResponse = chatgptService.sendMessage(question1);
@@ -61,7 +61,7 @@ public class DietService {
 
             // 점심
             String question2 = "점심에 섭취해야할 칼로리가 " + (pCal * 0.4) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 점심 식단을 완전 채식주의자 식단으로 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게  " +
-                    "먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+                    "먼저 음식과 g만 나열하고(kcal는 적지말아줘), 마지막 부분에 음식의 총 kcal도 소수점 떼고 적어줘.";
 
             String lunchResponse = chatgptService.sendMessage(question2);
             lunchResponse = lunchResponse.replaceAll("\n?", "");
@@ -70,7 +70,7 @@ public class DietService {
 
             // 저녁
             String question3 = "저녁에 섭취해야할 칼로리가 " + (pCal * 0.4) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 저녁 식단을 완전 채식주의자 식단으로 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게 " +
-                    "먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+                    "먼저 음식과 g만 나열하고(kcal는 적지말아줘), 마지막 부분에 음식의 총 kcal도 소수점 떼고 적어줘.";
 
             String dinnerResponse = chatgptService.sendMessage(question3);
             dinnerResponse = dinnerResponse.replaceAll("\n?", "");
@@ -83,7 +83,7 @@ public class DietService {
             // 탄단지 비율은 가장 이상적인 5 : 3 : 2
             // 아침
             String question1 = "아침에 섭취해야할 칼로리가 " + (pCal * 0.2) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 아침 식단을 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게 " +
-                    "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+                    "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고(kcal는 적지말아줘). 마지막 부분에 음식의 총 kcal도 소수점 떼고 적어줘.";
 
             ReadDietDto readDietDto = new ReadDietDto();
             String morningResponse = chatgptService.sendMessage(question1);
@@ -93,7 +93,7 @@ public class DietService {
 
             // 점심
             String question2 = "점심에 섭취해야할 칼로리가 " + (pCal * 0.4) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 점심 식단을 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게  " +
-                    "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+                    "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고(kcal는 적지말아줘) 마지막 부분에 음식의 총 kcal도 소수점 떼고 적어줘.";
 
             String lunchResponse = chatgptService.sendMessage(question2);
             lunchResponse = lunchResponse.replaceAll("\n?", "");
@@ -102,7 +102,7 @@ public class DietService {
 
             // 저녁
             String question3 = "저녁에 섭취해야할 칼로리가 " + (pCal * 0.4) + "인데, 이 칼로리에 맞춰서 한국인의 식성에 맞고 조화롭게 건강한 저녁 식단을 짜줘. 식단의 메뉴 개수는 2개에서 4개 정도로 할게 " +
-                    "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고, 마지막 부분에 총 kcal도 소수점 떼고 적어줘.";
+                    "한 끼 식사의 탄수화물:단백질:지방 비율은 5:3:2로 할게. 먼저 음식과 g만 나열하고(kcal는 적지말아줘). 마지막 부분에 음식의 총 kcal도 소수점 떼고 적어줘.";
 
             String dinnerResponse = chatgptService.sendMessage(question3);
             dinnerResponse = dinnerResponse.replaceAll("\n?", "");

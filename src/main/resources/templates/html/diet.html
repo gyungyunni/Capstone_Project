@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <title>Mate Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+        }
+        .--header {
+            background-color:white;
+            position: fixed; /* 위치 고정 */
+            top: 0;
+            width: 100%;
+            display:flex;
+            justify-content : space-between;
+            align-items : center;
+            padding :10px;
+            /*background-color:#FFE08C;*/
+            font-family: "Black Han Sans";
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .--logo-image{
+            font-size :30px;
+        }
+        .--login-container a{
+            margin-right: 20px;
+        }
+        .--not-login-container{
+            margin-right: 20px;
+        }
+        .--footer{
+            text-align:center;
+            padding :10px;
+            background-color:#f2f2f2;
+        }
+        nav {
+            margin-top:60px;
+            background-color: #FFE08C;
+            color: white;
+            padding: 20px;
+            align-items: center;
+        }
+
+        #search-button {
+            margin-left: 18px;
+            padding :9px;
+            border: none;
+            background-color: #8C8C8C;
+            border-radius:5px;
+            color:white;
+        }
+        .meal-table table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* Set table layout to fixed */
+        }
+
+        .meal-table th, .meal-table td {
+            border-bottom: solid #ddd 1px;
+            border-right: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            width: 33.33%; /* Divide the cells into 3 equal columns */
+        }
+
+        .meal-table th:last-child, .meal-table td:last-child {
+            border-right: none;
+        }
+
+        .meal-table th {
+            background-color: #8C8C8C;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="--header">
+        <div class="--logo">
+            <div class="--logo-image">🥖🥩🥑 삼시세끼</div>
+        </div>
+        <!-- 로그인/로그아웃과 마이페이지 링크 -->
+        <div class="--login-container">
+            <!-- 마이페이지와 로그아웃 링크 -->
+            <a href="/myPage">마이 페이지</a>
+            <a href="#" id="logout-button" onclick="logout()">로그아웃</a>
+        </div>
+        <!-- 로그인 링크 -->
+        <div class="--not-login-container" style="display: none;">
+            <a href="/login">로그인</a>
+        </div>
+    </header>
+    <nav>
+        <select id="gender-select">
+            <option value="">모든 성별</option>
+            <option value="남성">남성</option>
+            <option value="여성">여성</option>
+        </select>
+        <input type="text" id="keyword-age-input" placeholder="나이를 입력하세요">
+        <input type="text" id="keyword-height-input" placeholder="키를 입력하세요(cm)">
+        <input type="text" id="keyword-weight-input" placeholder="몸무게를 입력하세요(kg)">
+        <select id="activity-select">
+            <option value="">활동량</option>
+            <option value="거의 없다">거의 없다</option>
+            <option value="조금 있다">조금 있다</option>
+            <option value="보통">보통 이다</option>
+            <option value="꽤 있다">꽤 있다</option>
+            <option value="아주 많다">아주 많다</option>
+        </select>
+        <select id="purpose-select">
+            <option value="">목적</option>
+            <option value="감소">다이어트</option>
+            <option value="유지">체중 유지</option>
+            <option value="증가">벌크업</option>
+        </select>
+        <label><input type="checkbox" id="vegetarian-select" value="네"> 채식주의자</label>
+        <button id="search-button">식단 짜기</button>
+        <button id="load-button">정보 불러오기</button>
+        <button id="save-button">식단 저장</button>
+    </nav>
+
+    <div class="meal-table">
+        <table>
+            <thead>
+            <tr>
+                <th>아침</th>
+                <th>점심</th>
+                <th>저녁</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>(식단 정보 아침)</td>
+                <td>(식단 정보 점심)</td>
+                <td>(식단 정보 저녁)</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer class="--footer" style="position: absolute; bottom: 0; width: 100%;">
+        ©2023 KNU CAPSTONE. All rights reserved.
+    </footer>
+
+<script src="/js/users.js"></script>
+<script src="/js/diet.js"></script>
+</body>
+</html>

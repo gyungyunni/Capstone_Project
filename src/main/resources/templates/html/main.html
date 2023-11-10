@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+  <title>Main Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .--header {
+      display:flex;
+      justify-content : space-between;
+      align-items : center;
+      padding :10px;
+      /*background-color:#FFE08C;*/
+      font-family: "Black Han Sans";
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    .container {
+      width: auto;
+      min-height: calc(90vh - (40px + (10px * 2)));
+      display:flex;
+      flex-direction : column;
+      justify-content: center;
+      align-items: center;
+    }
+    .--logo-image{
+      font-size :30px;
+    }
+    .--login-container a{
+      margin-left :20px;
+    }
+    .--main{
+      padding :20px;
+    }
+    .--footer{
+      text-align:center;
+      padding :10px;
+      background-color:#f2f2f2;
+    }
+    .grid-container {
+      display: grid; /* 그리드 컨테이너로 설정 */
+      grid-template-columns:
+              minmax(400px, auto)
+              minmax(400px, auto);
+      gap:60px;
+      justify-content:center;
+    }
+    .grid-item:nth-child(1) {
+      grid-row-end : span;
+    }
+    .grid-item:nth-child(2) {
+      grid-row-end: span ;
+    }
+    .grid-item {
+      color:#353535;
+      font-weight: bold;
+      background-color:#FFE08C;
+      padding :40px;
+      border: none;
+      width: 100%;
+      height: auto;
+      font-size:18px;
+      border-radius:5px;
+      box-shadow:0px 5px 15px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+<header class="--header">
+  <div class="--logo">
+    <div class="--logo-image">🍴 삼시세끼</div>
+  </div>
+  <!-- 로그인/로그아웃과 마이페이지 링크 -->
+  <div class="--login-container">
+    <!-- 마이페이지와 로그아웃 링크 -->
+    <a href="/myPage">마이 페이지</a>
+    <a href="#" id="logout-button" onclick="logout()">로그아웃</a>
+  </div>
+  <!-- 로그인 링크 -->
+  <div class="--not-login-container" style="display: none;">
+    <a href="/login">로그인</a>
+  </div>
+</header>
+<main class="--main">
+  <div class="container">
+    <div class="grid-container">
+      <button type='button' onclick='location.href="/search"' class='grid-item'>🔍 주변 맛집 검색</button>
+      <button type='button' onclick='location.href="/diet"' class='grid-item'>🍽 맞춤 식단 짜기 </button>
+    </div>
+  </div>
+</main>
+<footer class="--footer">
+  ©2023 KNU CAPSTONE. All rights reserved.
+</footer>
+<script src="/js/users.js"></script>
+</body>
+</html>
