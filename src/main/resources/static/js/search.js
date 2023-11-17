@@ -111,9 +111,9 @@
             event.preventDefault(); // 기본 링크 동작을 막습니다.
 
             // 이동할 URL 설정
-            // var newURL = "https://threemeals.site/diet";
+            var newURL = "https://threemeals.site/diet";
             // 이동할 로컬 URL 설정
-            var newURL = "http://localhost:8090/diet";
+            // var newURL = "http://localhost:8090/diet";
 
             // 페이지를 새 URL로 이동함
             window.location.href = newURL;
@@ -124,9 +124,9 @@
             event.preventDefault(); // 기본 링크 동작을 막습니다.
 
             // 이동할 URL 설정
-            // var newURL = "https://threemeals.site/myPage";
+            var newURL = "https://threemeals.site/myPage";
             // 이동할 로컬 URL 설정
-            var newURL = "http://localhost:8090/myPage";
+            // var newURL = "http://localhost:8090/myPage";
 
             // 페이지를 새 URL로 이동함
             window.location.href = newURL;
@@ -137,9 +137,9 @@
             event.preventDefault(); // 기본 링크 동작을 막습니다.
 
             // 이동할 URL 설정
-            // var newURL = "https://threemeals.site";
+            var newURL = "https://threemeals.site";
             // 이동할 로컬 URL 설정
-            var newURL = "http://localhost:8090/";
+            //var newURL = "http://localhost:8090/";
 
             // 페이지를 새 URL로 이동함
             window.location.href = newURL;

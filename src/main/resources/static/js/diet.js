@@ -17,7 +17,7 @@ let currentSearchConditions = {
     vegetarian: "아니요"
 };
 
-// Define the event listener for the search button click
+// Replace the previous fetch code with Axios
 searchButton.addEventListener("click", function() {
     // Get values from form inputs
     currentSearchConditions.gender = genderSelect.value;
@@ -28,29 +28,25 @@ searchButton.addEventListener("click", function() {
     currentSearchConditions.purpose = purposeSelect.value;
     currentSearchConditions.vegetarian = vegetarianSelect.checked ? "네" : "아니요";
 
-    // Send an HTTP POST request to your server
-    fetch('/api/v1/chat-gpt', {
-        method: 'POST',
-        body: new URLSearchParams(currentSearchConditions),
+    // Send an HTTP POST request to your server using Axios
+    axios.post('/api/v1/chat-gpt', new URLSearchParams(currentSearchConditions), {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     })
-        .then(response => response.json())
-        .then(data => {
-            // Handle the response from the server (data contains the result)
-            console.log(data);
+        .then(response => {
+            // Handle the response from the server (response.data contains the result)
+            console.log(response.data);
             // You can update the UI with the response data here
             // 식단 정보 아침 업데이트
             const morningElement = document.querySelector('.meal-table tbody tr td:nth-child(1)');
-            morningElement.textContent = data.morning;
+            morningElement.textContent = response.data.morning;
             // 식단 정보 점심 업데이트
             const lunchElement = document.querySelector('.meal-table tbody tr td:nth-child(2)');
-            lunchElement.textContent = data.lunch;
+            lunchElement.textContent = response.data.lunch;
             // 식단 정보 저녁 업데이트
             const dinnerElement = document.querySelector('.meal-table tbody tr td:nth-child(3)');
-            dinnerElement.textContent = data.dinner;
-
+            dinnerElement.textContent = response.data.dinner;
         })
         .catch(error => {
             console.error('Error:', error);
